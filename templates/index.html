@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Guard - AI Safety System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Driver Guard AI</h1>
+    </header>
+
+    <div class="container" id="dashboard-view">
+        <!-- Video Feed -->
+        <div class="video-container">
+            <img id="video_feed" src="" alt="Live Feed (Click Start)">
+        </div>
+
+        <!-- Real-time Stats -->
+        <div class="stats-container">
+            <!-- Status Indicators -->
+            <div class="card">
+                <h2>System Status</h2>
+                <div id="status-drowsy" class="status-indicator">DROWSINESS</div>
+                <div id="status-yawn" class="status-indicator">YAWNING</div>
+                <div id="status-distracted" class="status-indicator">DISTRACTION</div>
+                <div class="metric">
+                    <span>FPS</span>
+                    <span id="fps-val" class="metric-value">0</span>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="card">
+                <h2>Metrics</h2>
+                <div class="metric">
+                    <span>EAR (Eyes)</span>
+                    <span id="ear-val" class="metric-value">0.00</span>
+                </div>
+                <div class="metric">
+                    <span>MAR (Mouth)</span>
+                    <span id="mar-val" class="metric-value">0.00</span>
+                </div>
+                <div class="metric">
+                    <span>Pitch</span>
+                    <span id="pitch-val" class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span>Yaw</span>
+                    <span id="yaw-val" class="metric-value">0</span>
+                </div>
+            </div>
+
+            <button id="btn-start" class="btn" style="background: var(--accent-green); margin-bottom: 10px;"
+                onclick="startSession()">Start Session</button>
+            <button id="btn-stop" class="btn" onclick="stopSession()" disabled style="opacity: 0.5;">End
+                Session</button>
+        </div>
+    </div>
+
+    <div class="container" id="live-chart-container">
+        <div class="card" style="width: 100%;">
+            <h2>Live Analysis</h2>
+            <div class="chart-container">
+                <canvas id="liveChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPORT VIEW (Hidden by default) -->
+    <div class="container" id="report-view" style="display: none;">
+        <div class="card" style="width: 100%;">
+            <header style="background: transparent; border: none; padding: 0; text-align: left; margin-bottom: 20px;">
+                <h1>Session Report</h1>
+                <p style="color: var(--text-secondary);">Here is how you performed.</p>
+            </header>
+
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
+                <div class="card" style="flex: 1; background: rgba(255,255,255,0.03);">
+                    <h2>Focus Score</h2>
+                    <div style="font-size: 3rem; font-weight: bold; text-align: center; color: var(--accent-green);"
+                        id="report-score">95</div>
+                </div>
+                <div class="card" style="flex: 1; background: rgba(255,255,255,0.03);">
+                    <h2>Duration</h2>
+                    <div style="font-size: 2rem; font-weight: bold; text-align: center;" id="report-duration">00:00
+                    </div>
+                </div>
+                <div class="card" style="flex: 1; background: rgba(255,255,255,0.03);">
+                    <h2>Events</h2>
+                    <div style="text-align: center;">
+                        <span style="color: var(--accent-red); margin-right: 15px;">Drowsy: <b
+                                id="report-drowsy">0</b></span>
+                        <span style="color: var(--accent-yellow); margin-right: 15px;">Yawning: <b
+                                id="report-yawn">0</b></span>
+                        <span style="color: var(--accent-blue);">Distracted: <b id="report-distracted">0</b></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="reportChart"></canvas>
+            </div>
+
+            <button class="btn" style="margin-top: 20px; background: var(--text-secondary);"
+                onclick="location.reload()">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
