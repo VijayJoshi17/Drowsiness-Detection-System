@@ -96,6 +96,7 @@ function startPolling() {
             document.getElementById('mar-val').innerText = data.mar.toFixed(2);
             document.getElementById('pitch-val').innerText = data.pitch.toFixed(1);
             document.getElementById('yaw-val').innerText = data.yaw.toFixed(1);
+            document.getElementById('bpm-val').innerText = data.bpm;
             document.getElementById('fps-val').innerText = data.fps.toFixed(1);
 
             // Update Status Indicators

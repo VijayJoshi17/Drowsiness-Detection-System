@@ -6,7 +6,7 @@ FRAME_WIDTH = 640
 FRAME_HEIGHT = 480
 
 # Detection Thresholds
-EAR_THRESHOLD = 0.25  # Eye Aspect Ratio threshold (below this is closed)
+EAR_THRESHOLD = 0.20  # Eye Aspect Ratio threshold (below this is closed)
 EAR_FRAMES = 50       # Number of consecutive frames to trigger alert (approx 2 seconds @ 25-30 FPS)
 MAR_THRESHOLD = 0.5   # Mouth Aspect Ratio threshold (above this is yawning)
 MAR_FRAMES = 20       # Number of consecutive frames to trigger alert

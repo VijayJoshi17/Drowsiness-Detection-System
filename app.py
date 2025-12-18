@@ -98,6 +98,7 @@ def gen_frames():
                     "drowsy": drowsy,
                     "yawning": yawning,
                     "distracted": distracted,
+                    "bpm": assessor.get_bpm(),
                     "fps": fps
                 }
             
