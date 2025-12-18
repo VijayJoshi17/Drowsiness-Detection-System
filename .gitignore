@@ -1,0 +1,12 @@
+# Ignore virtual environment folder
+venv/
+
+# Ignore Python bytecode files
+*.pyc
+*.pyo
+
+# Ignore environment variable files
+.env
+
+# Ignore other files you don't want to push
+*.log
