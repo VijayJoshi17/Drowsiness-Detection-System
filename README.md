@@ -29,8 +29,7 @@
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/driver-guard-ai.git
-    cd driver-guard-ai
+    git clone https://github.com/VijayJoshi17/Drowsiness-Detection-System.git
     ```
 
 2.  **Create a Virtual Environment (Recommended)**:
