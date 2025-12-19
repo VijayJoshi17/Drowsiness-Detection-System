@@ -11,6 +11,7 @@ from src.assessor import Assessor
 from src.alerter import Alerter
 from src.head_pose import HeadPoseEstimator
 from src.analytics import SessionManager
+from src.identity import IdentityManager
 import src.ui as ui
 
 app = Flask(__name__)
@@ -32,12 +33,14 @@ current_status = {
     "drowsy": False,
     "yawning": False,
     "distracted": False,
+    "authenticated": False,
+    "auth_score": 0.0,
     "fps": 0
 }
 lock = threading.Lock()
 
 def init_system():
-    global camera, detector, assessor, alerter, head_pose, session_manager
+    global camera, detector, assessor, alerter, head_pose, session_manager, identity_manager
     if camera is None:
         camera = Camera(src=CAMERA_ID, width=FRAME_WIDTH, height=FRAME_HEIGHT).start()
         detector = Detector()
@@ -45,9 +48,15 @@ def init_system():
         alerter = Alerter(ALARM_FILE)
         head_pose = HeadPoseEstimator(FRAME_WIDTH, FRAME_HEIGHT)
         session_manager = SessionManager()
+        identity_manager = IdentityManager()
+
+# Global Identity State
+identity_manager = None
+user_authenticated = False
+user_score = 1.0 # MSE Score
 
 def gen_frames():
-    global current_status, camera, detector, assessor, alerter, head_pose, session_manager
+    global current_status, camera, detector, assessor, alerter, head_pose, session_manager, identity_manager, user_authenticated, user_score
     
     prev_time = 0
     
@@ -66,6 +75,15 @@ def gen_frames():
         pitch, yaw, roll = 0, 0, 0
         distracted = False
         
+        # Identity Verification (Happens every frame if landmarks exist, but we only block/allow based on state)
+        if landmarks and identity_manager:
+            if identity_manager.profile:
+                match, score = identity_manager.verify_user(landmarks)
+                user_authenticated = match
+                user_score = score
+            else:
+                user_authenticated = False # No profile yet
+                
         if landmarks:
             # Drowsiness & Yawn
             assessor.update(ear, mar)
@@ -76,9 +94,7 @@ def gen_frames():
             rot_vec, trans_vec = head_pose.get_pose(landmarks)
             pitch, yaw, roll = head_pose.get_euler_angles(rot_vec)
 
-            # Normalization: User reports "Straight" is ~ -177.6.
-            # This suggests a 180-degree flip in the coordinate system.
-            # We wrap the angle to be within -90 to 90 for intuitive "looking up/down".
+            # Normalization...
             if pitch < -90:
                 pitch += 180
             elif pitch > 90:
@@ -99,7 +115,9 @@ def gen_frames():
                     "yawning": yawning,
                     "distracted": distracted,
                     "bpm": assessor.get_bpm(),
-                    "fps": fps
+                    "fps": fps,
+                    "authenticated": user_authenticated,
+                    "auth_score": float(user_score)
                 }
             
             # Analytics
@@ -146,6 +164,36 @@ def index():
 def start_session():
     init_system()
     return jsonify({"status": "started"})
+
+@app.route('/register_face')
+def register_face():
+    global identity_manager, detector, camera
+    try:
+        if identity_manager is None:
+            return jsonify({"status": "error", "message": "Identity Manager not initialized. Restart session."})
+            
+        # We need a fresh frame
+        if camera and camera.started:
+            # Try a few frames to get a face
+            for i in range(10):
+                frame = camera.read()
+                if frame is None:
+                    continue
+                    
+                ear, mar, landmarks = detector.process_frame(frame)
+                if landmarks:
+                    try:
+                        if identity_manager.save_profile(landmarks):
+                            return jsonify({"status": "success", "message": "Face registered successfully!"})
+                    except Exception as e:
+                        print(f"Error saving profile: {e}")
+                        return jsonify({"status": "error", "message": f"Save failed: {str(e)}"})
+                time.sleep(0.1)
+            return jsonify({"status": "error", "message": "No face detected. Look at the camera."})
+        return jsonify({"status": "error", "message": "Camera not started."})
+    except Exception as e:
+        print(f"Register endpoint error: {e}")
+        return jsonify({"status": "error", "message": f"Server Error: {str(e)}"})
 
 @app.route('/video_feed')
 def video_feed():

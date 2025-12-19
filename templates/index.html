@@ -28,6 +28,7 @@
             <!-- Status Indicators -->
             <div class="card">
                 <h2>System Status</h2>
+                <div id="status-auth" class="status-indicator">LOCKED</div>
                 <div id="status-drowsy" class="status-indicator">DROWSINESS</div>
                 <div id="status-yawn" class="status-indicator">YAWNING</div>
                 <div id="status-distracted" class="status-indicator">DISTRACTION</div>
@@ -62,8 +63,12 @@
                 </div>
             </div>
 
-            <button id="btn-start" class="btn" style="background: var(--accent-green); margin-bottom: 10px;"
-                onclick="startSession()">Start Session</button>
+            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                <button id="btn-start" class="btn" style="background: var(--accent-green); flex: 1;"
+                    onclick="startSession()">Start Session</button>
+                <button id="btn-register" class="btn" style="background: var(--accent-blue); flex: 1;"
+                    onclick="registerFace()">Register Face</button>
+            </div>
             <button id="btn-stop" class="btn" onclick="stopSession()" disabled style="opacity: 0.5;">End
                 Session</button>
         </div>
@@ -118,7 +123,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}?v=2"></script>
 </body>
 
 </html>

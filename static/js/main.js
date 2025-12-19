@@ -104,6 +104,20 @@ function startPolling() {
             updateIndicator('status-yawn', data.yawning, 'yawn');
             updateIndicator('status-distracted', data.distracted, 'distracted');
 
+            // Auth Indicator
+            const authEl = document.getElementById('status-auth');
+            if (data.authenticated) {
+                authEl.innerText = "UNLOCKED";
+                authEl.className = "status-indicator status-active auth";
+                authEl.style.background = "var(--accent-green)";
+                authEl.style.color = "#000";
+            } else {
+                authEl.innerText = "LOCKED";
+                authEl.className = "status-indicator";
+                authEl.style.background = "";
+                authEl.style.color = "";
+            }
+
             // Update Chart
             if (liveChart) {
                 updateLiveChart(data.ear, data.mar);
@@ -113,6 +127,23 @@ function startPolling() {
             console.error("Error fetching status", e);
         }
     }, 500);
+}
+
+async function registerFace() {
+    if (!document.getElementById('btn-start').disabled) {
+        alert("Please START the session first to turn on the camera.");
+        return;
+    }
+
+    document.getElementById('btn-register').innerText = "Scanning...";
+    try {
+        const response = await fetch('/register_face');
+        const data = await response.json();
+        alert(data.message);
+    } catch (e) {
+        alert("Registration failed.");
+    }
+    document.getElementById('btn-register').innerText = "Register Face";
 }
 
 function updateLiveChart(ear, mar) {
