@@ -58,7 +58,7 @@ user_authenticated = False
 user_score = 1.0 # MSE Score
 
 def gen_frames():
-    global current_status, camera, detector, assessor, alerter, head_pose, session_manager, identity_manager, user_authenticated, user_score
+    global current_status, user_authenticated, user_score
     
     prev_time = 0
     
@@ -173,7 +173,7 @@ def start_session():
 
 @app.route('/register_face')
 def register_face():
-    global identity_manager, detector, camera
+    # camera, identity_manager, detector are read from global scope
     try:
         if identity_manager is None:
             return jsonify({"status": "error", "message": "Identity Manager not initialized. Restart session."})
@@ -220,7 +220,7 @@ def status():
 
 @app.route('/stop_session')
 def stop_session():
-    global camera, alerter, session_manager
+    global camera, alerter
     
     # Generate Report
     report = {}
