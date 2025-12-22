@@ -6,6 +6,7 @@
 ![Flask](https://img.shields.io/badge/Flask-2.x-green)
 ![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-red)
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-Face%20Mesh-orange)
+![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 
 ## 🌟 Key Features
 
