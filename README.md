@@ -13,11 +13,11 @@
 - **Drowsiness Detection**: Monitors Eye Aspect Ratio (EAR) to detect prolonged eye closure.
 - **Yawn Detection**: Tracks Mouth Aspect Ratio (MAR) to identify signs of fatigue.
 - **Distraction Detection**: Estimates Head Pose (Pitch, Yaw) to alert when the driver looks away.
-- ** Blink Rate Analysis**: Calculates Blinks Per Minute (BPM) as a metric for alertness.
+- **Blink Rate Analysis**: Calculates Blinks Per Minute (BPM) as a metric for alertness.
 - **Face Recognition Login**: Secure, biometric driver identification using geometric landmark matching (no external heavy dependencies).
 - **Real-time Dashboard**: Glassmorphism UI showing live video feed, status indicators, and real-time charts.
-- **📈 Session Analytics**: Generates a detailed post-drive report with focus scores, event counts, and time distribution charts.
-- **🔊 Audio Alerts**: Plays alarm sounds when dangerous behavior is detected.
+- **Session Analytics**: Generates a detailed post-drive report with focus scores, event counts, and time distribution charts.
+- **Audio Alerts**: Plays alarm sounds when dangerous behavior is detected.
 
 ## 🛠️ Tech Stack
 
