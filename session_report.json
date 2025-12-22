@@ -1,0 +1,29 @@
+{
+    "summary": {
+        "duration_seconds": 9,
+        "start_time": "2025-12-22 18:29:17",
+        "counts": {
+            "drowsy": 0,
+            "distracted": 2,
+            "yawn": 0
+        },
+        "times": {
+            "drowsy_str": "0.0s",
+            "distracted_str": "0.0s",
+            "yawn_str": "0.0s"
+        },
+        "score": 99
+    },
+    "events": [
+        {
+            "timestamp": 2.150226354598999,
+            "type": "DISTRACTED",
+            "real_time": "18:29:20"
+        },
+        {
+            "timestamp": 5.035281658172607,
+            "type": "DISTRACTED",
+            "real_time": "18:29:22"
+        }
+    ]
+}

@@ -118,6 +118,9 @@ function startPolling() {
                 authEl.style.color = "";
             }
 
+            // Low Light Indicator
+            updateIndicator('status-low-light', data.low_light, 'low-light');
+
             // Update Chart
             if (liveChart) {
                 updateLiveChart(data.ear, data.mar);

@@ -12,6 +12,7 @@ from src.alerter import Alerter
 from src.head_pose import HeadPoseEstimator
 from src.analytics import SessionManager
 from src.identity import IdentityManager
+from src.vision_utils import enhance_low_light
 import src.ui as ui
 
 app = Flask(__name__)
@@ -35,6 +36,7 @@ current_status = {
     "distracted": False,
     "authenticated": False,
     "auth_score": 0.0,
+    "low_light": False,
     "fps": 0
 }
 lock = threading.Lock()
@@ -71,6 +73,9 @@ def gen_frames():
         prev_time = curr_time
         
         # Process
+        # Low Light Enhancement
+        frame, is_low_light = enhance_low_light(frame)
+
         ear, mar, landmarks = detector.process_frame(frame)
         pitch, yaw, roll = 0, 0, 0
         distracted = False
@@ -117,7 +122,8 @@ def gen_frames():
                     "bpm": assessor.get_bpm(),
                     "fps": fps,
                     "authenticated": user_authenticated,
-                    "auth_score": float(user_score)
+                    "auth_score": float(user_score),
+                    "low_light": is_low_light
                 }
             
             # Analytics

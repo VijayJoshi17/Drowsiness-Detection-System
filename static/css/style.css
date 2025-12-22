@@ -132,6 +132,14 @@ h1 {
     color: white;
 }
 
+.status-active.low-light {
+    background: #d8b4fe;
+    /* Light Purple */
+    color: #4c1d95;
+    /* Dark Purple */
+    box-shadow: 0 0 15px #d8b4fe;
+}
+
 .btn {
     width: 100%;
     padding: 12px;
