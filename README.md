@@ -96,7 +96,11 @@ MAR_THRESHOLD = 0.5   # Size of mouth opening for yawn
 ├── static/
 │   ├── css/style.css   # Styles
 │   └── js/main.js      # Frontend Logic & Charts
-└── requirements.txt    # Dependencies
+├── requirements.txt    # Dependencies
+├── run.bat             # Batch file to run the application
+├── README.md           # Project Documentation
+├── .gitignore          # Git ignore file
+└── alarm.wav           # Alarm sound file
 ```
 
 *Stay Alert, Stay Safe!* 🛡️
