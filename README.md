@@ -67,6 +67,25 @@
 4.  **End Session**:
     - Click **"End Session"** to view your **Driver Report Card**.
 
+## 🐳 Docker Deployment
+
+You can run the application in a container without installing dependencies manually.
+
+1.  **Build the Image**:
+    ```bash
+    docker build -t driver-guard .
+    ```
+
+2.  **Run the Container**:
+    ```bash
+    # We map port 5000 and pass the device for camera access (Linux/WSL)
+    # On Windows, accessing the webcam from Docker can be tricky.
+    # Standard run command:
+    docker run -p 5000:5000 driver-guard
+    ```
+
+    *Note: Webcam access inside Docker on Windows requires special configuration or WSL2 USB passthrough. For local development, running `python app.py` directly is recommended.*
+
 ## ⚙️ Configuration
 
 You can tune sensitivity settings in `config.py`:
